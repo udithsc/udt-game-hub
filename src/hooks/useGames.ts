@@ -1,12 +1,6 @@
+import { GameQuery } from '../App';
 import useData from './useData';
-import { Genre } from './useGenres';
-
-export interface Platform {
-  id: number;
-  name: string;
-  slug: string;
-}
-
+import { Platform } from './usePlatforms';
 export interface Game {
   id: number;
   name: string;
@@ -17,15 +11,17 @@ export interface Game {
   metacritic: number;
 }
 
-const useGames = (selectedGenre: Genre | null) =>
+const useGames = (gameQuery: GameQuery) =>
   useData<Game>(
     '/games',
     {
       params: {
-        genres: selectedGenre?.id,
+        genres: gameQuery.genre?.id,
+        platforms: gameQuery.platform?.id,
+        ordering: gameQuery.sortOrder,
       },
     },
-    [selectedGenre?.id]
+    [gameQuery]
   );
 
 export default useGames;
