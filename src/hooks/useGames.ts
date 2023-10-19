@@ -9,6 +9,7 @@ export interface Game {
     platform: Platform;
   }[];
   metacritic: number;
+  rating_top: number;
 }
 
 const useGames = (gameQuery: GameQuery) =>
