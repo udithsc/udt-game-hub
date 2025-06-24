@@ -1,14 +1,14 @@
-import { 
-  Card, 
-  CardBody, 
-  HStack, 
-  Heading, 
-  Image, 
+import {
+  Card,
+  CardBody,
+  HStack,
+  Heading,
+  Image,
   useDisclosure,
   Text,
   VStack,
   useColorModeValue,
-  Box
+  Box,
 } from '@chakra-ui/react';
 import { Game } from '../hooks/useGames';
 import PlatformIconList from './PlatformIconList';
@@ -27,9 +27,9 @@ const GameCard = ({ game }: Props) => {
 
   return (
     <>
-      <Card 
+      <Card
         bg={bg}
-        borderRadius="lg" 
+        borderRadius="lg"
         overflow="hidden"
         onClick={onOpen}
         cursor="pointer"
@@ -41,8 +41,8 @@ const GameCard = ({ game }: Props) => {
         }}
       >
         <Box position="relative">
-          <Image 
-            src={getCroppedImageUrl(game.background_image)} 
+          <Image
+            src={getCroppedImageUrl(game.background_image)}
             height="200px"
             objectFit="cover"
             width="100%"
@@ -58,11 +58,7 @@ const GameCard = ({ game }: Props) => {
           >
             <CriticScore score={game.metacritic} />
           </Box>
-          <Box
-            position="absolute"
-            bottom={2}
-            right={2}
-          >
+          <Box position="absolute" bottom={2} right={2}>
             <Emoji rating={game.rating_top} />
           </Box>
         </Box>
@@ -78,11 +74,7 @@ const GameCard = ({ game }: Props) => {
         </CardBody>
       </Card>
 
-      <GameModal 
-        game={game} 
-        isOpen={isOpen} 
-        onClose={onClose}
-      />
+      <GameModal game={game} isOpen={isOpen} onClose={onClose} />
     </>
   );
 };

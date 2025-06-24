@@ -1,9 +1,9 @@
-import { 
-  Modal, 
-  ModalOverlay, 
-  ModalContent, 
-  ModalHeader, 
-  ModalBody, 
+import {
+  Modal,
+  ModalOverlay,
+  ModalContent,
+  ModalHeader,
+  ModalBody,
   ModalCloseButton,
   Image,
   Text,
@@ -11,7 +11,7 @@ import {
   HStack,
   Badge,
   Spinner,
-  Box
+  Box,
 } from '@chakra-ui/react';
 import { useEffect, useState } from 'react';
 import { Game } from '../hooks/useGames';
@@ -70,28 +70,31 @@ const GameModal = ({ game, isOpen, onClose }: Props) => {
             <Text color="red.500">{error}</Text>
           ) : gameDetails ? (
             <VStack align="stretch" spacing={4}>
-              <Image 
-                src={getCroppedImageUrl(game.background_image)} 
+              <Image
+                src={getCroppedImageUrl(game.background_image)}
                 borderRadius="md"
                 objectFit="cover"
                 height="300px"
               />
-              
+
               <HStack justify="space-between" wrap="wrap" gap={2}>
-                <PlatformIconList platforms={game.parent_platforms.map(p => p.platform)} />
+                <PlatformIconList
+                  platforms={game.parent_platforms.map((p) => p.platform)}
+                />
                 <CriticScore score={game.metacritic} />
               </HStack>
 
               {gameDetails.released && (
                 <Text color="gray.500">
-                  Released: {new Date(gameDetails.released).toLocaleDateString()}
+                  Released:{' '}
+                  {new Date(gameDetails.released).toLocaleDateString()}
                 </Text>
               )}
 
               {gameDetails.publishers?.length > 0 && (
                 <HStack>
                   <Text color="gray.500">Publishers:</Text>
-                  {gameDetails.publishers.map(publisher => (
+                  {gameDetails.publishers.map((publisher) => (
                     <Badge key={publisher.name} colorScheme="green">
                       {publisher.name}
                     </Badge>
@@ -102,7 +105,7 @@ const GameModal = ({ game, isOpen, onClose }: Props) => {
               {gameDetails.genres?.length > 0 && (
                 <HStack>
                   <Text color="gray.500">Genres:</Text>
-                  {gameDetails.genres.map(genre => (
+                  {gameDetails.genres.map((genre) => (
                     <Badge key={genre.name} colorScheme="blue">
                       {genre.name}
                     </Badge>
@@ -112,8 +115,15 @@ const GameModal = ({ game, isOpen, onClose }: Props) => {
 
               {gameDetails.website && (
                 <Text>
-                  <Text as="span" color="gray.500">Website: </Text>
-                  <a href={gameDetails.website} target="_blank" rel="noopener noreferrer" style={{ color: 'var(--chakra-colors-blue-500)' }}>
+                  <Text as="span" color="gray.500">
+                    Website:{' '}
+                  </Text>
+                  <a
+                    href={gameDetails.website}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    style={{ color: 'var(--chakra-colors-blue-500)' }}
+                  >
                     {gameDetails.website}
                   </a>
                 </Text>
@@ -121,8 +131,12 @@ const GameModal = ({ game, isOpen, onClose }: Props) => {
 
               {gameDetails.description_raw && (
                 <Box>
-                  <Text color="gray.500" mb={2}>Description:</Text>
-                  <Text whiteSpace="pre-wrap">{gameDetails.description_raw}</Text>
+                  <Text color="gray.500" mb={2}>
+                    Description:
+                  </Text>
+                  <Text whiteSpace="pre-wrap">
+                    {gameDetails.description_raw}
+                  </Text>
                 </Box>
               )}
             </VStack>
@@ -133,4 +147,4 @@ const GameModal = ({ game, isOpen, onClose }: Props) => {
   );
 };
 
-export default GameModal; 
+export default GameModal;

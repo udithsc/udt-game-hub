@@ -9,7 +9,7 @@ import {
   VStack,
   useColorModeValue,
   Text,
-  Box
+  Box,
 } from '@chakra-ui/react';
 import useGenres, { Genre } from '../hooks/useGenres';
 import getCroppedImageUrl from '../services/image-url';
@@ -29,7 +29,7 @@ const GenreList = ({ onSelectGenre, selectedGenre }: Props) => {
 
   return (
     <VStack align="start" spacing={4} as="nav" py={4}>
-      <Heading fontSize='2xl' fontWeight="bold" mb={2}>
+      <Heading fontSize="2xl" fontWeight="bold" mb={2}>
         Genres
       </Heading>
       <List spacing={2} w="100%">
@@ -51,11 +51,11 @@ const GenreList = ({ onSelectGenre, selectedGenre }: Props) => {
                 <Image
                   boxSize={'32px'}
                   borderRadius={8}
-                  objectFit='cover'
+                  objectFit="cover"
                   src={getCroppedImageUrl(genre.image_background)}
                   alt={genre.name}
                 />
-                <Text fontSize='md' fontWeight="medium">
+                <Text fontSize="md" fontWeight="medium">
                   {genre.name}
                 </Text>
               </HStack>

@@ -39,8 +39,8 @@ function App() {
           gap={6}
           pt="80px"
         >
-          <Show above='lg'>
-            <GridItem 
+          <Show above="lg">
+            <GridItem
               area={'aside'}
               position="sticky"
               top="80px"
@@ -56,9 +56,9 @@ function App() {
           <GridItem area={'main'}>
             <Box>
               <GameHeading gameQuery={gameQuery} />
-              <Flex 
-                marginBottom={5} 
-                gap={4} 
+              <Flex
+                marginBottom={5}
+                gap={4}
                 direction={{ base: 'column', md: 'row' }}
                 align={{ base: 'stretch', md: 'center' }}
               >

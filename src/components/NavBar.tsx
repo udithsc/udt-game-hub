@@ -1,10 +1,10 @@
-import { 
-  Box, 
-  Container, 
-  HStack, 
+import {
+  Box,
+  Container,
+  HStack,
   IconButton,
-  Image, 
-  Show, 
+  Image,
+  Show,
   useColorModeValue,
   useDisclosure,
   Drawer,
@@ -34,7 +34,7 @@ const NavBar = ({ onSearch, onSelectGenre, selectedGenre }: Props) => {
 
   return (
     <>
-      <Box 
+      <Box
         position="fixed"
         top={0}
         left={0}
@@ -47,31 +47,31 @@ const NavBar = ({ onSearch, onSelectGenre, selectedGenre }: Props) => {
         boxShadow={'sm'}
       >
         <Container maxW={'container.xl'} p={0}>
-          <HStack 
-            spacing={4} 
-            py={4} 
+          <HStack
+            spacing={4}
+            py={4}
             px={{ base: 4, md: 6 }}
             justify="space-between"
             align="center"
           >
             <HStack spacing={4}>
               <Show below="lg">
-                <IconButton 
-                  icon={<HamburgerIcon />} 
+                <IconButton
+                  icon={<HamburgerIcon />}
                   aria-label="Open navigation"
                   onClick={onOpen}
                   variant="ghost"
                 />
               </Show>
-              <Image 
-                src={logo} 
-                width={{ base: '150px', md: '250px' }} 
+              <Image
+                src={logo}
+                width={{ base: '150px', md: '250px' }}
                 objectFit="contain"
                 alt="Game Hub Logo"
               />
             </HStack>
             <HStack spacing={4} flex={1} justify="flex-end">
-              <Show above='md'>
+              <Show above="md">
                 <Box flex={1} maxW="500px">
                   <SearchInput onSearch={onSearch} />
                 </Box>
@@ -88,12 +88,12 @@ const NavBar = ({ onSearch, onSelectGenre, selectedGenre }: Props) => {
           <DrawerCloseButton />
           <DrawerHeader>Genres</DrawerHeader>
           <DrawerBody>
-            <GenreList 
-              selectedGenre={selectedGenre} 
+            <GenreList
+              selectedGenre={selectedGenre}
               onSelectGenre={(genre) => {
                 onSelectGenre(genre);
                 onClose();
-              }} 
+              }}
             />
           </DrawerBody>
         </DrawerContent>

@@ -1,5 +1,10 @@
 import { useRef } from 'react';
-import { Input, InputGroup, InputLeftElement, useColorModeValue } from '@chakra-ui/react';
+import {
+  Input,
+  InputGroup,
+  InputLeftElement,
+  useColorModeValue,
+} from '@chakra-ui/react';
 import { BsSearch } from 'react-icons/bs';
 
 interface Props {
@@ -21,21 +26,21 @@ const SearchInput = ({ onSearch }: Props) => {
       }}
     >
       <InputGroup size="lg">
-        <InputLeftElement 
-          pointerEvents="none" 
-          children={<BsSearch color={iconColor} />} 
+        <InputLeftElement
+          pointerEvents="none"
+          children={<BsSearch color={iconColor} />}
         />
         <Input
           ref={ref}
           borderRadius="full"
-          placeholder='Search games...'
-          variant='filled'
+          placeholder="Search games..."
+          variant="filled"
           bg={inputBg}
           _hover={{ bg: inputHoverBg }}
           _focus={{
             bg: inputBg,
             borderColor: 'blue.500',
-            boxShadow: '0 0 0 1px var(--chakra-colors-blue-500)'
+            boxShadow: '0 0 0 1px var(--chakra-colors-blue-500)',
           }}
           fontSize="md"
         />
