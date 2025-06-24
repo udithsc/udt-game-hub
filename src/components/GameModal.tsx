@@ -50,7 +50,7 @@ const GameModal = ({ game, isOpen, onClose }: Props) => {
         setIsLoading(false);
       })
       .catch((err) => {
-        setError('Error loading game details');
+        setError('Error loading game details: '+ err,);
         setIsLoading(false);
       });
   }, [game.id, isOpen]);

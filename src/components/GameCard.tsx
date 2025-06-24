@@ -1,11 +1,9 @@
 import {
   Card,
   CardBody,
-  HStack,
   Heading,
   Image,
   useDisclosure,
-  Text,
   VStack,
   useColorModeValue,
   Box,
