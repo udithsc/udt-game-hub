@@ -31,10 +31,7 @@ const GameCard = ({ game }: Props) => {
     ? new Date(game.released).getFullYear()
     : null;
 
-  // Rating stars (out of 5)
   const ratingDisplay = game.rating ? game.rating.toFixed(1) : null;
-
-  // Top 2 genres only
   const topGenres = game.genres?.slice(0, 2) ?? [];
 
   return (
@@ -59,7 +56,6 @@ const GameCard = ({ game }: Props) => {
         flexDirection="column"
         position="relative"
       >
-        {/* Image container */}
         <Box position="relative" overflow="hidden" height="190px" flexShrink={0}>
           <Image
             className="game-card-image"
@@ -68,25 +64,20 @@ const GameCard = ({ game }: Props) => {
             width="100%"
             objectFit="cover"
           />
-          {/* Gradient Overlay */}
           <Box
             position="absolute"
             bottom={0}
             left={0}
             right={0}
-            height="70%"
+            height="50%"
             bgGradient={`linear(to-t, ${cardBg} 0%, transparent 100%)`}
             pointerEvents="none"
           />
-
-          {/* Metacritic badge — top right */}
           {game.metacritic > 0 && (
             <Box position="absolute" top={2.5} right={2.5}>
               <CriticScore score={game.metacritic} />
             </Box>
           )}
-
-          {/* Genre tags — bottom left over image */}
           {topGenres.length > 0 && (
             <HStack
               position="absolute"
@@ -117,9 +108,7 @@ const GameCard = ({ game }: Props) => {
           )}
         </Box>
 
-        {/* Card Body */}
         <Box p={3.5} flex={1} display="flex" flexDirection="column" gap={2.5}>
-          {/* Game Title */}
           <Text
             fontSize="sm"
             fontWeight="700"
@@ -130,21 +119,13 @@ const GameCard = ({ game }: Props) => {
             {game.name}
           </Text>
 
-          {/* Platform icons */}
           <PlatformIconList
             platforms={game.parent_platforms?.map((p) => p.platform) ?? []}
           />
 
-          {/* Divider */}
-          <Box
-            borderTop="1px solid"
-            borderColor={borderColor}
-            mt={0.5}
-          />
+          <Box borderTop="1px solid" borderColor={borderColor} mt={0.5} />
 
-          {/* Meta row: rating + playtime + year */}
           <HStack justifyContent="space-between" alignItems="center" flexWrap="wrap" gap={1.5}>
-            {/* Star rating */}
             {ratingDisplay && (
               <HStack spacing={1} alignItems="center">
                 <Box as={FaStar} color="yellow.400" boxSize="11px" />
@@ -162,7 +143,6 @@ const GameCard = ({ game }: Props) => {
             )}
 
             <HStack spacing={2.5}>
-              {/* Playtime */}
               {game.playtime > 0 && (
                 <HStack spacing={1} alignItems="center">
                   <Box as={FaClock} color={metaTextColor} boxSize="10px" />
@@ -171,8 +151,6 @@ const GameCard = ({ game }: Props) => {
                   </Text>
                 </HStack>
               )}
-
-              {/* Release year */}
               {releaseYear && (
                 <HStack spacing={1} alignItems="center">
                   <Box as={FaCalendarAlt} color={metaTextColor} boxSize="10px" />

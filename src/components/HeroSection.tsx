@@ -55,7 +55,6 @@ const HeroSection = ({ onBrowse }: Props) => {
         goTo((current - 1 + games.length) % games.length, 'prev');
     }, [current, games.length, goTo]);
 
-    // Auto-advance
     useEffect(() => {
         if (games.length === 0) return;
         timerRef.current = setInterval(next, SLIDE_INTERVAL);
@@ -85,6 +84,21 @@ const HeroSection = ({ onBrowse }: Props) => {
     const game = games[current];
     const releaseYear = game.released ? new Date(game.released).getFullYear() : null;
 
+    const metacriticColor =
+        game.metacritic > 75 ? '#48c78e' : game.metacritic > 60 ? '#ffc700' : '#ff5e5e';
+    const metacriticBg =
+        game.metacritic > 75
+            ? 'rgba(72,199,142,0.25)'
+            : game.metacritic > 60
+                ? 'rgba(255,199,0,0.25)'
+                : 'rgba(255,94,94,0.25)';
+    const metacriticBorder =
+        game.metacritic > 75
+            ? 'rgba(72,199,142,0.4)'
+            : game.metacritic > 60
+                ? 'rgba(255,199,0,0.4)'
+                : 'rgba(255,94,94,0.4)';
+
     return (
         <Box
             position="relative"
@@ -93,7 +107,6 @@ const HeroSection = ({ onBrowse }: Props) => {
             overflow="hidden"
             className="hero-section"
         >
-            {/* Background slides */}
             {games.map((g, i) => (
                 <Box
                     key={g.id}
@@ -115,7 +128,6 @@ const HeroSection = ({ onBrowse }: Props) => {
                 />
             ))}
 
-            {/* Gradient overlay */}
             <Box
                 position="absolute"
                 inset={0}
@@ -124,20 +136,18 @@ const HeroSection = ({ onBrowse }: Props) => {
                 pointerEvents="none"
             />
 
-            {/* Bottom fade */}
             <Box
                 position="absolute"
                 bottom={0}
                 left={0}
                 right={0}
-                height="45%"
-                bgGradient="linear(to-t, var(--hero-fade, #090c1a) 0%, transparent 100%)"
+                height="28%"
+                bgGradient="linear(to-t, var(--hero-fade, rgba(9,12,26,0.85)) 0%, transparent 100%)"
                 zIndex={2}
                 pointerEvents="none"
                 className="hero-bottom-fade"
             />
 
-            {/* Content */}
             <Box
                 position="absolute"
                 inset={0}
@@ -152,7 +162,6 @@ const HeroSection = ({ onBrowse }: Props) => {
                     opacity={isAnimating ? 0 : 1}
                     transition="all 0.4s ease"
                 >
-                    {/* Genre badges */}
                     {game.genres?.length > 0 && (
                         <HStack spacing={2} mb={3} flexWrap="wrap">
                             {game.genres.slice(0, 3).map((g) => (
@@ -176,7 +185,6 @@ const HeroSection = ({ onBrowse }: Props) => {
                         </HStack>
                     )}
 
-                    {/* Game title */}
                     <Text
                         fontSize={{ base: '2xl', md: '4xl', lg: '5xl' }}
                         fontWeight="900"
@@ -190,7 +198,6 @@ const HeroSection = ({ onBrowse }: Props) => {
                         {game.name}
                     </Text>
 
-                    {/* Meta row */}
                     <HStack spacing={4} mb={5} flexWrap="wrap">
                         {game.rating > 0 && (
                             <HStack spacing={1.5}>
@@ -202,33 +209,15 @@ const HeroSection = ({ onBrowse }: Props) => {
                         )}
                         {game.metacritic > 0 && (
                             <Box
-                                bg={
-                                    game.metacritic > 75
-                                        ? 'rgba(72,199,142,0.25)'
-                                        : game.metacritic > 60
-                                            ? 'rgba(255,199,0,0.25)'
-                                            : 'rgba(255,94,94,0.25)'
-                                }
-                                color={
-                                    game.metacritic > 75
-                                        ? '#48c78e'
-                                        : game.metacritic > 60
-                                            ? '#ffc700'
-                                            : '#ff5e5e'
-                                }
+                                bg={metacriticBg}
+                                color={metacriticColor}
                                 px={2}
                                 py={0.5}
                                 borderRadius="md"
                                 fontSize="xs"
                                 fontWeight="800"
                                 border="1px solid"
-                                borderColor={
-                                    game.metacritic > 75
-                                        ? 'rgba(72,199,142,0.4)'
-                                        : game.metacritic > 60
-                                            ? 'rgba(255,199,0,0.4)'
-                                            : 'rgba(255,94,94,0.4)'
-                                }
+                                borderColor={metacriticBorder}
                             >
                                 {game.metacritic} MC
                             </Box>
@@ -248,7 +237,6 @@ const HeroSection = ({ onBrowse }: Props) => {
                         )}
                     </HStack>
 
-                    {/* CTA button */}
                     <Box
                         as="button"
                         onClick={onBrowse}
@@ -276,7 +264,6 @@ const HeroSection = ({ onBrowse }: Props) => {
                 </Box>
             </Box>
 
-            {/* Prev / Next arrows */}
             <IconButton
                 aria-label="Previous"
                 icon={<FaChevronLeft />}
@@ -292,10 +279,7 @@ const HeroSection = ({ onBrowse }: Props) => {
                 border="1px solid rgba(255,255,255,0.15)"
                 backdropFilter="blur(8px)"
                 _hover={{ bg: 'rgba(131,71,255,0.6)', borderColor: 'brand.400' }}
-                onClick={() => {
-                    prev();
-                    resetTimer();
-                }}
+                onClick={() => { prev(); resetTimer(); }}
             />
             <IconButton
                 aria-label="Next"
@@ -312,13 +296,9 @@ const HeroSection = ({ onBrowse }: Props) => {
                 border="1px solid rgba(255,255,255,0.15)"
                 backdropFilter="blur(8px)"
                 _hover={{ bg: 'rgba(131,71,255,0.6)', borderColor: 'brand.400' }}
-                onClick={() => {
-                    next();
-                    resetTimer();
-                }}
+                onClick={() => { next(); resetTimer(); }}
             />
 
-            {/* Dot indicators */}
             <HStack
                 position="absolute"
                 bottom={4}
@@ -331,10 +311,7 @@ const HeroSection = ({ onBrowse }: Props) => {
                     <Box
                         key={i}
                         as="button"
-                        onClick={() => {
-                            goTo(i, i > current ? 'next' : 'prev');
-                            resetTimer();
-                        }}
+                        onClick={() => { goTo(i, i > current ? 'next' : 'prev'); resetTimer(); }}
                         width={i === current ? '24px' : '8px'}
                         height="8px"
                         borderRadius="full"
@@ -348,7 +325,6 @@ const HeroSection = ({ onBrowse }: Props) => {
                 ))}
             </HStack>
 
-            {/* Slide counter */}
             <Text
                 position="absolute"
                 bottom={4}
