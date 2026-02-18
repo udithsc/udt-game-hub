@@ -2,7 +2,6 @@ import {
   Modal,
   ModalOverlay,
   ModalContent,
-  ModalHeader,
   ModalBody,
   ModalCloseButton,
   Image,
@@ -30,9 +29,7 @@ interface Props {
 interface GameDetails extends Game {
   description_raw: string;
   website: string;
-  released: string;
   publishers: { name: string }[];
-  genres: { name: string }[];
 }
 
 const GameModal = ({ game, isOpen, onClose }: Props) => {
@@ -41,8 +38,8 @@ const GameModal = ({ game, isOpen, onClose }: Props) => {
   const [error, setError] = useState('');
 
   const labelColor = useColorModeValue('gray.500', 'gray.400');
-  const linkColor = useColorModeValue('brand.600', 'brand.300');
   const dividerColor = useColorModeValue('gray.100', 'whiteAlpha.100');
+  const descriptionColor = useColorModeValue('gray.700', 'gray.300');
 
   useEffect(() => {
     if (!isOpen) return;
@@ -217,7 +214,7 @@ const GameModal = ({ game, isOpen, onClose }: Props) => {
                       fontSize="sm"
                       whiteSpace="pre-wrap"
                       lineHeight="1.7"
-                      color={useColorModeValue('gray.700', 'gray.300')}
+                      color={descriptionColor}
                       noOfLines={12}
                     >
                       {gameDetails.description_raw}

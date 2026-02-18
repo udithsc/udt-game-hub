@@ -2,7 +2,6 @@ import {
   Card,
   CardBody,
   Skeleton,
-  SkeletonText,
   Box,
   HStack,
   useColorModeValue,

@@ -26,8 +26,6 @@ const GameCard = ({ game }: Props) => {
     'rgba(255, 255, 255, 0.04)'
   );
   const metaTextColor = useColorModeValue('gray.500', 'gray.400');
-  const genreBg = useColorModeValue('blackAlpha.50', 'whiteAlpha.100');
-  const genreColor = useColorModeValue('gray.600', 'gray.300');
 
   const releaseYear = game.released
     ? new Date(game.released).getFullYear()

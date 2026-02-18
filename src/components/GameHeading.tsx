@@ -1,4 +1,4 @@
-import { Heading, Text, HStack, useColorModeValue } from '@chakra-ui/react';
+import { Heading, Text, useColorModeValue } from '@chakra-ui/react';
 import { GameQuery } from '../App';
 
 interface Props {
