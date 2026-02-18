@@ -98,8 +98,8 @@ const GameCard = ({ game }: Props) => {
               {topGenres.map((genre) => (
                 <Badge
                   key={genre.id}
-                  bg="rgba(131, 71, 255, 0.25)"
-                  color="purple.200"
+                  bg="rgba(100, 50, 220, 0.72)"
+                  color="white"
                   fontSize="9px"
                   fontWeight="700"
                   letterSpacing="0.06em"
@@ -107,7 +107,7 @@ const GameCard = ({ game }: Props) => {
                   px={2}
                   py={0.5}
                   borderRadius="full"
-                  border="1px solid rgba(131, 71, 255, 0.35)"
+                  border="1px solid rgba(180, 140, 255, 0.5)"
                   backdropFilter="blur(6px)"
                 >
                   {genre.name}
