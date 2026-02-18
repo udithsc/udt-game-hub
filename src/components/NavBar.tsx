@@ -3,7 +3,7 @@ import {
   Container,
   HStack,
   IconButton,
-  Image,
+  Icon,
   Show,
   useColorModeValue,
   useDisclosure,
@@ -13,9 +13,10 @@ import {
   DrawerCloseButton,
   DrawerHeader,
   DrawerBody,
+  Text,
 } from '@chakra-ui/react';
 import { HamburgerIcon } from '@chakra-ui/icons';
-import logo from '../assets/logo.webp';
+import { FaGamepad } from 'react-icons/fa';
 import ColorModeSwitch from './ColorModeSwitch';
 import SearchInput from './SearchInput';
 import { Genre } from '../hooks/useGenres';
@@ -29,8 +30,14 @@ interface Props {
 
 const NavBar = ({ onSearch, onSelectGenre, selectedGenre }: Props) => {
   const { isOpen, onOpen, onClose } = useDisclosure();
-  const bgColor = useColorModeValue('white', 'gray.800');
-  const borderColor = useColorModeValue('gray.200', 'gray.700');
+  const navBg = useColorModeValue(
+    'rgba(240, 242, 248, 0.75)',
+    'rgba(9, 12, 26, 0.65)'
+  );
+  const borderColor = useColorModeValue(
+    'rgba(0, 0, 0, 0.06)',
+    'rgba(255, 255, 255, 0.06)'
+  );
 
   return (
     <>
@@ -39,40 +46,68 @@ const NavBar = ({ onSearch, onSelectGenre, selectedGenre }: Props) => {
         top={0}
         left={0}
         right={0}
-        bg={bgColor}
-        borderBottom={1}
-        borderStyle={'solid'}
+        bg={navBg}
+        backdropFilter="blur(20px) saturate(1.5)"
+        borderBottom="1px solid"
         borderColor={borderColor}
         zIndex={100}
-        boxShadow={'sm'}
+        transition="all 0.3s ease"
       >
-        <Container maxW={'container.xl'} p={0}>
+        <Container maxW="container.xl" p={0}>
           <HStack
             spacing={4}
-            py={4}
+            py={3}
             px={{ base: 4, md: 6 }}
             justify="space-between"
             align="center"
           >
-            <HStack spacing={4}>
+            <HStack spacing={3}>
               <Show below="lg">
                 <IconButton
                   icon={<HamburgerIcon />}
                   aria-label="Open navigation"
                   onClick={onOpen}
                   variant="ghost"
+                  size="sm"
+                  borderRadius="lg"
                 />
               </Show>
-              <Image
-                src={logo}
-                width={{ base: '150px', md: '250px' }}
-                objectFit="contain"
-                alt="Game Hub Logo"
-              />
+              <HStack spacing={2} align="center">
+                {/* Modern vector logo */}
+                <Box
+                  bgGradient="linear(to-br, brand.400, accent.500)"
+                  p={1.5}
+                  borderRadius="lg"
+                  boxShadow="glow"
+                >
+                  <Icon as={FaGamepad} boxSize="20px" color="white" />
+                </Box>
+                <HStack spacing={0.5}>
+                  <Text
+                    fontSize="xl"
+                    fontWeight="800"
+                    letterSpacing="-0.02em"
+                    color={useColorModeValue('gray.700', 'white')}
+                    display={{ base: 'none', sm: 'block' }}
+                  >
+                    UDT
+                  </Text>
+                  <Text
+                    fontSize="xl"
+                    fontWeight="800"
+                    letterSpacing="-0.02em"
+                    bgGradient="linear(to-r, brand.400, accent.400)"
+                    bgClip="text"
+                    display={{ base: 'none', sm: 'block' }}
+                  >
+                    GameHub
+                  </Text>
+                </HStack>
+              </HStack>
             </HStack>
-            <HStack spacing={4} flex={1} justify="flex-end">
+            <HStack spacing={3} flex={1} justify="flex-end">
               <Show above="md">
-                <Box flex={1} maxW="500px">
+                <Box flex={1} maxW="480px">
                   <SearchInput onSearch={onSearch} />
                 </Box>
               </Show>
@@ -83,11 +118,21 @@ const NavBar = ({ onSearch, onSelectGenre, selectedGenre }: Props) => {
       </Box>
 
       <Drawer isOpen={isOpen} placement="left" onClose={onClose}>
-        <DrawerOverlay />
-        <DrawerContent>
+        <DrawerOverlay bg="blackAlpha.700" backdropFilter="blur(8px)" />
+        <DrawerContent
+          bg={useColorModeValue('#f0f2f8', '#0d1024')}
+          borderRightWidth="1px"
+          borderRightColor={borderColor}
+        >
           <DrawerCloseButton />
-          <DrawerHeader>Genres</DrawerHeader>
-          <DrawerBody>
+          <DrawerHeader
+            borderBottomWidth="1px"
+            borderColor={borderColor}
+            fontWeight="700"
+          >
+            Genres
+          </DrawerHeader>
+          <DrawerBody p={3}>
             <GenreList
               selectedGenre={selectedGenre}
               onSelectGenre={(genre) => {

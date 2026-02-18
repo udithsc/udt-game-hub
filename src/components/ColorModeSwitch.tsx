@@ -1,8 +1,9 @@
-import { IconButton, useColorMode } from '@chakra-ui/react';
+import { IconButton, useColorMode, useColorModeValue } from '@chakra-ui/react';
 import { SunIcon, MoonIcon } from '@chakra-ui/icons';
 
 const ColorModeSwitch = () => {
   const { toggleColorMode, colorMode } = useColorMode();
+  const hoverBg = useColorModeValue('blackAlpha.100', 'whiteAlpha.100');
 
   return (
     <IconButton
@@ -10,6 +11,9 @@ const ColorModeSwitch = () => {
       icon={colorMode === 'dark' ? <SunIcon /> : <MoonIcon />}
       onClick={toggleColorMode}
       variant="ghost"
+      size="sm"
+      borderRadius="lg"
+      _hover={{ bg: hoverBg }}
     />
   );
 };

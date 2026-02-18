@@ -7,8 +7,9 @@ import {
   Button,
   Heading,
   VStack,
-  useColorModeValue,
   Text,
+  useColorModeValue,
+  Box,
 } from '@chakra-ui/react';
 import useGenres, { Genre } from '../hooks/useGenres';
 import getCroppedImageUrl from '../services/image-url';
@@ -20,47 +21,79 @@ interface Props {
 
 const GenreList = ({ onSelectGenre, selectedGenre }: Props) => {
   const { data: genres, isLoading, error } = useGenres();
-  const hoverBg = useColorModeValue('gray.100', 'gray.700');
-  const selectedBg = useColorModeValue('gray.200', 'gray.600');
+  const labelColor = useColorModeValue('gray.500', 'gray.400');
 
-  if (error) return <Text color="red.500">Failed to load genres.</Text>;
-  if (isLoading) return <Spinner />;
+  if (error) return <Text color="red.400">Failed to load genres.</Text>;
+  if (isLoading)
+    return (
+      <VStack py={10}>
+        <Spinner color="brand.400" />
+      </VStack>
+    );
 
   return (
-    <VStack align="start" spacing={4} as="nav" py={4}>
-      <Heading fontSize="2xl" fontWeight="bold" mb={2}>
+    <VStack align="start" spacing={2} as="nav" py={2} className="genre-sidebar">
+      <Heading
+        fontSize="xs"
+        fontWeight="700"
+        textTransform="uppercase"
+        letterSpacing="0.1em"
+        color={labelColor}
+        mb={2}
+        px={3}
+      >
         Genres
       </Heading>
-      <List spacing={2} w="100%">
-        {genres.map((genre) => (
-          <ListItem key={genre.id}>
-            <Button
-              w="100%"
-              justifyContent="flex-start"
-              variant="ghost"
-              onClick={() => onSelectGenre(genre)}
-              isActive={genre.id === selectedGenre?.id}
-              _hover={{ bg: hoverBg }}
-              _active={{ bg: selectedBg }}
-              bg={genre.id === selectedGenre?.id ? selectedBg : 'transparent'}
-              p={2}
-              borderRadius="md"
-            >
-              <HStack spacing={3}>
-                <Image
-                  boxSize={'32px'}
-                  borderRadius={8}
-                  objectFit="cover"
-                  src={getCroppedImageUrl(genre.image_background)}
-                  alt={genre.name}
-                />
-                <Text fontSize="md" fontWeight="medium">
-                  {genre.name}
-                </Text>
-              </HStack>
-            </Button>
-          </ListItem>
-        ))}
+      <List spacing={0} w="100%">
+        {genres.map((genre) => {
+          const isSelected = genre.id === selectedGenre?.id;
+          return (
+            <ListItem key={genre.id}>
+              <Button
+                w="100%"
+                justifyContent="flex-start"
+                variant="ghost"
+                onClick={() => onSelectGenre(genre)}
+                bg={isSelected ? 'brand.500' : 'transparent'}
+                color={isSelected ? 'white' : 'inherit'}
+                _hover={{
+                  bg: isSelected ? 'brand.600' : 'whiteAlpha.100',
+                  transform: 'translateX(4px)',
+                }}
+                _active={{ bg: 'brand.600' }}
+                p={2.5}
+                borderRadius="xl"
+                transition="all 0.2s ease"
+                height="auto"
+                minH="44px"
+              >
+                <HStack spacing={3}>
+                  <Box
+                    borderRadius="lg"
+                    overflow="hidden"
+                    flexShrink={0}
+                    boxSize="36px"
+                    bg="gray.700"
+                  >
+                    <Image
+                      boxSize="36px"
+                      objectFit="cover"
+                      src={getCroppedImageUrl(genre.image_background)}
+                      alt={genre.name}
+                    />
+                  </Box>
+                  <Text
+                    fontSize="sm"
+                    fontWeight={isSelected ? '700' : '500'}
+                    noOfLines={1}
+                  >
+                    {genre.name}
+                  </Text>
+                </HStack>
+              </Button>
+            </ListItem>
+          );
+        })}
       </List>
     </VStack>
   );

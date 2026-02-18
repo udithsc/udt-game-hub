@@ -1,4 +1,4 @@
-import { HStack, Icon } from '@chakra-ui/react';
+import { HStack, Icon, Tooltip, useColorModeValue } from '@chakra-ui/react';
 import {
   FaWindows,
   FaPlaystation,
@@ -17,27 +17,47 @@ interface Props {
   platforms: Platform[];
 }
 
+const iconMap: { [key: string]: { icon: IconType; label: string } } = {
+  pc: { icon: FaWindows, label: 'PC' },
+  playstation: { icon: FaPlaystation, label: 'PlayStation' },
+  xbox: { icon: FaXbox, label: 'Xbox' },
+  nintendo: { icon: SiNintendo, label: 'Nintendo' },
+  mac: { icon: FaApple, label: 'macOS' },
+  linux: { icon: FaLinux, label: 'Linux' },
+  android: { icon: FaAndroid, label: 'Android' },
+  ios: { icon: MdPhoneIphone, label: 'iOS' },
+  web: { icon: BsGlobe, label: 'Web' },
+};
+
 const PlatformIconList = ({ platforms }: Props) => {
-  const iconMap: { [key: string]: IconType } = {
-    pc: FaWindows,
-    playstation: FaPlaystation,
-    xbox: FaXbox,
-    nintendo: SiNintendo,
-    mac: FaApple,
-    linux: FaLinux,
-    android: FaAndroid,
-    ios: MdPhoneIphone,
-    web: BsGlobe,
-  };
+  const iconColor = useColorModeValue('gray.400', 'gray.500');
+
   return (
-    <HStack marginY={1}>
-      {platforms.map((platform) => (
-        <Icon
-          key={platform.id}
-          as={iconMap[platform.slug]}
-          color={'gray.500'}
-        />
-      ))}
+    <HStack spacing={2} flexWrap="wrap">
+      {platforms.map((platform) => {
+        const entry = iconMap[platform.slug];
+        if (!entry) return null;
+        return (
+          <Tooltip
+            key={platform.id}
+            label={entry.label}
+            fontSize="xs"
+            hasArrow
+            placement="top"
+            openDelay={300}
+          >
+            <span>
+              <Icon
+                as={entry.icon}
+                color={iconColor}
+                boxSize="13px"
+                transition="color 0.2s, transform 0.2s"
+                _hover={{ color: 'brand.400', transform: 'scale(1.2)' }}
+              />
+            </span>
+          </Tooltip>
+        );
+      })}
     </HStack>
   );
 };

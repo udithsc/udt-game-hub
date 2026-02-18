@@ -1,4 +1,11 @@
-import { Button, Menu, MenuButton, MenuItem, MenuList } from '@chakra-ui/react';
+import {
+  Button,
+  Menu,
+  MenuButton,
+  MenuItem,
+  MenuList,
+  useColorModeValue,
+} from '@chakra-ui/react';
 import { BsChevronDown } from 'react-icons/bs';
 
 interface Props {
@@ -20,16 +27,30 @@ const SortSelector = ({ onSelectSortOrder, sortOrder }: Props) => {
     (order) => order.value === sortOrder
   );
 
+  const btnBg = useColorModeValue('blackAlpha.50', 'whiteAlpha.50');
+  const btnHoverBg = useColorModeValue('blackAlpha.100', 'whiteAlpha.100');
+
   return (
     <Menu>
-      <MenuButton as={Button} rightIcon={<BsChevronDown />}>
-        Order by:{currentSortOrder?.label || 'Relevance'}
+      <MenuButton
+        as={Button}
+        rightIcon={<BsChevronDown />}
+        variant="ghost"
+        bg={btnBg}
+        _hover={{ bg: btnHoverBg }}
+        borderRadius="full"
+        size="sm"
+        fontWeight="600"
+        px={4}
+      >
+        {currentSortOrder?.label || 'Relevance'}
       </MenuButton>
       <MenuList>
         {sortOrders.map((order) => (
           <MenuItem
             onClick={() => onSelectSortOrder(order.value)}
             key={order.value}
+            fontSize="sm"
           >
             {order.label}
           </MenuItem>

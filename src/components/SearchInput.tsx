@@ -13,9 +13,8 @@ interface Props {
 
 const SearchInput = ({ onSearch }: Props) => {
   const ref = useRef<HTMLInputElement>(null);
-  const inputBg = useColorModeValue('gray.50', 'gray.700');
-  const inputHoverBg = useColorModeValue('gray.100', 'gray.600');
-  const iconColor = useColorModeValue('gray.500', 'gray.400');
+  const iconColor = useColorModeValue('gray.400', 'gray.500');
+  const placeholderColor = useColorModeValue('gray.400', 'gray.500');
 
   return (
     <form
@@ -25,24 +24,17 @@ const SearchInput = ({ onSearch }: Props) => {
         if (ref.current) onSearch(ref.current.value);
       }}
     >
-      <InputGroup size="lg">
-        <InputLeftElement
-          pointerEvents="none"
-          children={<BsSearch color={iconColor} />}
-        />
+      <InputGroup size="md">
+        <InputLeftElement pointerEvents="none">
+          <BsSearch color={iconColor} />
+        </InputLeftElement>
         <Input
           ref={ref}
           borderRadius="full"
           placeholder="Search games..."
           variant="filled"
-          bg={inputBg}
-          _hover={{ bg: inputHoverBg }}
-          _focus={{
-            bg: inputBg,
-            borderColor: 'blue.500',
-            boxShadow: '0 0 0 1px var(--chakra-colors-blue-500)',
-          }}
-          fontSize="md"
+          _placeholder={{ color: placeholderColor }}
+          fontSize="sm"
         />
       </InputGroup>
     </form>

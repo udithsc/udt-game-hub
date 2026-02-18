@@ -1,3 +1,122 @@
 form {
   width: 100%;
 }
+
+/* ===== Custom scrollbar ===== */
+::-webkit-scrollbar {
+  width: 6px;
+  height: 6px;
+}
+
+::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+::-webkit-scrollbar-thumb {
+  background: rgba(255, 255, 255, 0.12);
+  border-radius: 999px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: rgba(255, 255, 255, 0.2);
+}
+
+/* ===== Animated gradient background ===== */
+body::before {
+  content: '';
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background:
+    radial-gradient(ellipse 80% 50% at 20% 10%, rgba(131, 71, 255, 0.08), transparent),
+    radial-gradient(ellipse 60% 40% at 80% 80%, rgba(255, 54, 149, 0.05), transparent);
+  pointer-events: none;
+  z-index: 0;
+}
+
+#root {
+  position: relative;
+  z-index: 1;
+}
+
+/* ===== Card image hover zoom ===== */
+.game-card-image {
+  transition: transform 0.5s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+}
+
+.game-card:hover .game-card-image {
+  transform: scale(1.08);
+}
+
+/* ===== Genre scrollbar ===== */
+.genre-sidebar::-webkit-scrollbar {
+  width: 4px;
+}
+
+.genre-sidebar::-webkit-scrollbar-thumb {
+  background: rgba(131, 71, 255, 0.3);
+  border-radius: 999px;
+}
+
+/* ===== Fade-in animation ===== */
+@keyframes fadeInUp {
+  from {
+    opacity: 0;
+    transform: translateY(16px);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.fade-in-up {
+  animation: fadeInUp 0.4s ease forwards;
+}
+
+/* ===== Shimmer glow for skeleton ===== */
+@keyframes shimmer {
+  0% {
+    background-position: -400px 0;
+  }
+
+  100% {
+    background-position: 400px 0;
+  }
+}
+
+/* ===== Pulse animation for loading spinner ===== */
+@keyframes pulse-glow {
+
+  0%,
+  100% {
+    box-shadow: 0 0 10px rgba(131, 71, 255, 0.3);
+  }
+
+  50% {
+    box-shadow: 0 0 25px rgba(131, 71, 255, 0.6);
+  }
+}
+
+/* ===== Game card shine effect on hover ===== */
+.game-card::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  border-radius: inherit;
+  background: linear-gradient(135deg,
+      rgba(255, 255, 255, 0.04) 0%,
+      transparent 50%,
+      rgba(131, 71, 255, 0.03) 100%);
+  opacity: 0;
+  transition: opacity 0.3s ease;
+  pointer-events: none;
+  z-index: 1;
+}
+
+.game-card:hover::after {
+  opacity: 1;
+}
