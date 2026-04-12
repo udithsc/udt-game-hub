@@ -1,9 +1,9 @@
 import {
   Box,
   HStack,
+  IconButton,
   Image,
   Text,
-  useDisclosure,
   useColorModeValue,
   Badge,
 } from '@chakra-ui/react';
@@ -11,21 +11,37 @@ import { Game } from '../hooks/useGames';
 import PlatformIconList from './PlatformIconList';
 import CriticScore from './CriticScore';
 import getCroppedImageUrl from '../services/image-url';
-import GameModal from './GameModal';
-import { FaStar, FaClock, FaCalendarAlt } from 'react-icons/fa';
+import {
+  FaStar,
+  FaClock,
+  FaCalendarAlt,
+  FaHeart,
+  FaRegHeart,
+} from 'react-icons/fa';
 
 interface Props {
   game: Game;
+  onSelect: (game: Game) => void;
+  isWishlisted: boolean;
+  onToggleWishlist: (game: Game) => void;
 }
 
-const GameCard = ({ game }: Props) => {
-  const { isOpen, onOpen, onClose } = useDisclosure();
-  const cardBg = useColorModeValue('white', '#12152a');
+const GameCard = ({
+  game,
+  onSelect,
+  isWishlisted,
+  onToggleWishlist,
+}: Props) => {
+  const cardBg = useColorModeValue(
+    'rgba(255,255,255,0.82)',
+    'rgba(255,255,255,0.04)'
+  );
   const borderColor = useColorModeValue(
-    'rgba(0, 0, 0, 0.06)',
-    'rgba(255, 255, 255, 0.04)'
+    'rgba(20, 32, 51, 0.08)',
+    'rgba(255, 255, 255, 0.08)'
   );
   const metaTextColor = useColorModeValue('gray.500', 'gray.400');
+  const ratingPillBg = useColorModeValue('blackAlpha.50', 'whiteAlpha.100');
 
   const releaseYear = game.released
     ? new Date(game.released).getFullYear()
@@ -37,26 +53,40 @@ const GameCard = ({ game }: Props) => {
   return (
     <>
       <Box
-        className="game-card"
+        className="modern-panel game-card"
         bg={cardBg}
-        borderRadius="2xl"
+        borderRadius="28px"
         overflow="hidden"
-        onClick={onOpen}
+        onClick={() => onSelect(game)}
+        onKeyDown={(event) => {
+          if (event.key === 'Enter' || event.key === ' ') {
+            event.preventDefault();
+            onSelect(game);
+          }
+        }}
         cursor="pointer"
+        role="button"
+        tabIndex={0}
+        aria-label={`Open details for ${game.name}`}
         transition="all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1)"
         border="1px solid"
         borderColor={borderColor}
         _hover={{
-          transform: 'translateY(-6px)',
+          transform: 'translateY(-8px)',
           boxShadow: 'card-hover',
-          borderColor: 'brand.500',
+          borderColor: 'brand.300',
+        }}
+        _focusVisible={{
+          outline: 'none',
+          borderColor: 'brand.400',
+          boxShadow: '0 0 0 2px rgba(47,115,246,0.35)',
         }}
         height="100%"
         display="flex"
         flexDirection="column"
         position="relative"
       >
-        <Box position="relative" overflow="hidden" height="190px" flexShrink={0}>
+        <Box position="relative" overflow="hidden" height="220px" flexShrink={0}>
           <Image
             className="game-card-image"
             src={getCroppedImageUrl(game.background_image)}
@@ -78,6 +108,25 @@ const GameCard = ({ game }: Props) => {
               <CriticScore score={game.metacritic} />
             </Box>
           )}
+          <IconButton
+            aria-label={
+              isWishlisted ? 'Remove from wishlist' : 'Add to wishlist'
+            }
+            icon={isWishlisted ? <FaHeart /> : <FaRegHeart />}
+            position="absolute"
+            top={2.5}
+            left={2.5}
+            size="sm"
+            borderRadius="full"
+            bg="rgba(8,17,31,0.58)"
+            color="white"
+            border="1px solid rgba(255,255,255,0.16)"
+            _hover={{ bg: 'rgba(8,17,31,0.78)' }}
+            onClick={(event) => {
+              event.stopPropagation();
+              onToggleWishlist(game);
+            }}
+          />
           {topGenres.length > 0 && (
             <HStack
               position="absolute"
@@ -89,7 +138,7 @@ const GameCard = ({ game }: Props) => {
               {topGenres.map((genre) => (
                 <Badge
                   key={genre.id}
-                  bg="rgba(100, 50, 220, 0.72)"
+                  bg="rgba(12, 18, 29, 0.58)"
                   color="white"
                   fontSize="9px"
                   fontWeight="700"
@@ -98,7 +147,7 @@ const GameCard = ({ game }: Props) => {
                   px={2}
                   py={0.5}
                   borderRadius="full"
-                  border="1px solid rgba(180, 140, 255, 0.5)"
+                  border="1px solid rgba(255,255,255,0.18)"
                   backdropFilter="blur(6px)"
                 >
                   {genre.name}
@@ -108,13 +157,13 @@ const GameCard = ({ game }: Props) => {
           )}
         </Box>
 
-        <Box p={3.5} flex={1} display="flex" flexDirection="column" gap={2.5}>
+        <Box p={4.5} flex={1} display="flex" flexDirection="column" gap={3}>
           <Text
-            fontSize="sm"
+            fontSize="lg"
             fontWeight="700"
-            lineHeight="1.3"
+            lineHeight="1.15"
             noOfLines={2}
-            letterSpacing="-0.01em"
+            letterSpacing="-0.03em"
           >
             {game.name}
           </Text>
@@ -123,11 +172,18 @@ const GameCard = ({ game }: Props) => {
             platforms={game.parent_platforms?.map((p) => p.platform) ?? []}
           />
 
-          <Box borderTop="1px solid" borderColor={borderColor} mt={0.5} />
+          <Box borderTop="1px solid" borderColor={borderColor} mt={1} />
 
-          <HStack justifyContent="space-between" alignItems="center" flexWrap="wrap" gap={1.5}>
+          <HStack justifyContent="space-between" alignItems="center" flexWrap="wrap" gap={2}>
             {ratingDisplay && (
-              <HStack spacing={1} alignItems="center">
+              <HStack
+                spacing={1.5}
+                alignItems="center"
+                px={2.5}
+                py={1.5}
+                borderRadius="full"
+                bg={ratingPillBg}
+              >
                 <Box as={FaStar} color="yellow.400" boxSize="11px" />
                 <Text fontSize="xs" fontWeight="700" color={metaTextColor}>
                   {ratingDisplay}
@@ -164,7 +220,6 @@ const GameCard = ({ game }: Props) => {
         </Box>
       </Box>
 
-      <GameModal game={game} isOpen={isOpen} onClose={onClose} />
     </>
   );
 };

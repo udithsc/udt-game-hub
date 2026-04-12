@@ -2,7 +2,16 @@ form {
   width: 100%;
 }
 
-/* Scrollbar */
+:root {
+  --page-grid: rgba(89, 112, 145, 0.12);
+  --page-line: rgba(255, 255, 255, 0.08);
+}
+
+body.chakra-ui-light {
+  --page-grid: rgba(73, 98, 133, 0.12);
+  --page-line: rgba(20, 32, 51, 0.06);
+}
+
 ::-webkit-scrollbar {
   width: 6px;
   height: 6px;
@@ -21,7 +30,6 @@ form {
   background: rgba(255, 255, 255, 0.2);
 }
 
-/* Ambient background gradient */
 body::before {
   content: '';
   position: fixed;
@@ -30,8 +38,23 @@ body::before {
   width: 100%;
   height: 100%;
   background:
-    radial-gradient(ellipse 80% 50% at 20% 10%, rgba(131, 71, 255, 0.08), transparent),
-    radial-gradient(ellipse 60% 40% at 80% 80%, rgba(255, 54, 149, 0.05), transparent);
+    radial-gradient(circle at top left, rgba(47, 115, 246, 0.18), transparent 28%),
+    radial-gradient(circle at 85% 20%, rgba(255, 98, 48, 0.16), transparent 24%),
+    linear-gradient(180deg, rgba(255, 255, 255, 0.02), transparent 28%);
+  pointer-events: none;
+  z-index: 0;
+}
+
+body::after {
+  content: '';
+  position: fixed;
+  inset: 0;
+  background-image:
+    linear-gradient(to right, transparent 0, transparent calc(100% - 1px), var(--page-line) calc(100% - 1px)),
+    linear-gradient(to bottom, transparent 0, transparent calc(100% - 1px), var(--page-line) calc(100% - 1px));
+  background-size: 120px 120px;
+  mask-image: radial-gradient(circle at center, black 20%, transparent 85%);
+  opacity: 0.3;
   pointer-events: none;
   z-index: 0;
 }
@@ -41,7 +64,6 @@ body::before {
   z-index: 1;
 }
 
-/* Game card image zoom on hover */
 .game-card-image {
   transition: transform 0.5s cubic-bezier(0.25, 0.46, 0.45, 0.94);
 }
@@ -114,17 +136,17 @@ body::before {
   z-index: 1;
 }
 
-.game-card:hover::after {
+.game-card:hover::after,
+.game-card:focus-visible::after {
   opacity: 1;
 }
 
-/* Hero section */
 body.chakra-ui-dark .hero-bottom-fade {
-  --hero-fade: rgba(9, 12, 26, 0.9);
+  --hero-fade: rgba(8, 17, 31, 0.95);
 }
 
 body.chakra-ui-light .hero-bottom-fade {
-  --hero-fade: rgba(240, 242, 248, 0.5);
+  --hero-fade: rgba(245, 247, 251, 0.82);
 }
 
 @keyframes heroSlideIn {
@@ -141,4 +163,9 @@ body.chakra-ui-light .hero-bottom-fade {
 
 .hero-section {
   animation: heroSlideIn 0.6s ease forwards;
+}
+
+.modern-panel {
+  backdrop-filter: blur(22px);
+  -webkit-backdrop-filter: blur(22px);
 }

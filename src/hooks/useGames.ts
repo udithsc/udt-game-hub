@@ -1,3 +1,4 @@
+import { useMemo } from 'react';
 import { GameQuery } from '../App';
 import useData from './useData';
 import { Platform } from './usePlatforms';
@@ -18,18 +19,20 @@ export interface Game {
   playtime: number;
 }
 
-const useGames = (gameQuery: GameQuery) =>
-  useData<Game>(
-    '/games',
-    {
+const useGames = (gameQuery: GameQuery) => {
+  const requestConfig = useMemo(
+    () => ({
       params: {
         genres: gameQuery.genre?.id,
         platforms: gameQuery.platform?.id,
         ordering: gameQuery.sortOrder,
         search: gameQuery.searchText,
       },
-    },
-    [gameQuery]
+    }),
+    [gameQuery.genre?.id, gameQuery.platform?.id, gameQuery.sortOrder, gameQuery.searchText]
   );
+
+  return useData<Game>('/games', requestConfig);
+};
 
 export default useGames;

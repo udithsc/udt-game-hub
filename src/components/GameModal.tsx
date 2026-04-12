@@ -1,4 +1,5 @@
 import {
+  Button,
   Modal,
   ModalOverlay,
   ModalContent,
@@ -14,16 +15,20 @@ import {
   useColorModeValue,
 } from '@chakra-ui/react';
 import { useEffect, useState } from 'react';
+import { CanceledError } from 'axios';
 import { Game } from '../hooks/useGames';
 import apiClient from '../services/api-client';
 import PlatformIconList from './PlatformIconList';
 import CriticScore from './CriticScore';
 import getCroppedImageUrl from '../services/image-url';
+import { FaHeart, FaRegHeart } from 'react-icons/fa';
 
 interface Props {
   game: Game;
   isOpen: boolean;
   onClose: () => void;
+  isWishlisted: boolean;
+  onToggleWishlist: (game: Game) => void;
 }
 
 interface GameDetails extends Game {
@@ -32,29 +37,57 @@ interface GameDetails extends Game {
   publishers: { name: string }[];
 }
 
-const GameModal = ({ game, isOpen, onClose }: Props) => {
-  const [gameDetails, setGameDetails] = useState<GameDetails>();
-  const [isLoading, setIsLoading] = useState(false);
-  const [error, setError] = useState('');
+interface GameDetailsState {
+  details?: GameDetails;
+  error: string;
+  resolvedId: number | null;
+}
+
+const GameModal = ({
+  game,
+  isOpen,
+  onClose,
+  isWishlisted,
+  onToggleWishlist,
+}: Props) => {
+  const [state, setState] = useState<GameDetailsState>({
+    details: undefined,
+    error: '',
+    resolvedId: null,
+  });
 
   const labelColor = useColorModeValue('gray.500', 'gray.400');
   const dividerColor = useColorModeValue('gray.100', 'whiteAlpha.100');
   const descriptionColor = useColorModeValue('gray.700', 'gray.300');
+  const gameDetails = state.resolvedId === game.id ? state.details : undefined;
+  const error = state.resolvedId === game.id ? state.error : '';
+  const isLoading = isOpen && state.resolvedId !== game.id;
 
   useEffect(() => {
     if (!isOpen) return;
 
-    setIsLoading(true);
+    const controller = new AbortController();
     apiClient
-      .get<GameDetails>(`/games/${game.id}`)
+      .get<GameDetails>(`/games/${game.id}`, {
+        signal: controller.signal,
+      })
       .then((res) => {
-        setGameDetails(res.data);
-        setIsLoading(false);
+        setState({
+          details: res.data,
+          error: '',
+          resolvedId: game.id,
+        });
       })
       .catch((err) => {
-        setError('Error loading game details: ' + err);
-        setIsLoading(false);
+        if (err instanceof CanceledError) return;
+        setState({
+          details: undefined,
+          error: 'Error loading game details: ' + err,
+          resolvedId: game.id,
+        });
       });
+
+    return () => controller.abort();
   }, [game.id, isOpen]);
 
   return (
@@ -111,7 +144,18 @@ const GameModal = ({ game, isOpen, onClose }: Props) => {
                   <PlatformIconList
                     platforms={game.parent_platforms.map((p) => p.platform)}
                   />
-                  <CriticScore score={game.metacritic} />
+                  <HStack spacing={2}>
+                    <Button
+                      leftIcon={isWishlisted ? <FaHeart /> : <FaRegHeart />}
+                      size="sm"
+                      variant="ghost"
+                      borderRadius="full"
+                      onClick={() => onToggleWishlist(game)}
+                    >
+                      {isWishlisted ? 'Saved' : 'Save'}
+                    </Button>
+                    <CriticScore score={game.metacritic} />
+                  </HStack>
                 </HStack>
 
                 {gameDetails.released && (

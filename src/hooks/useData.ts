@@ -7,40 +7,57 @@ interface FetchResponse<T> {
   results: T[];
 }
 
+interface DataState<T> {
+  data: T[];
+  error: string;
+  resolvedKey: string;
+}
+
 const useData = <T>(
   endpoint: string,
-  requestConfig?: AxiosRequestConfig,
-  deps?: unknown[]
+  requestConfig?: AxiosRequestConfig
 ) => {
-  const [data, setData] = useState<T[]>([]);
-  const [error, setError] = useState('');
-  const [isLoading, setIsLoading] = useState(false);
+  const requestKey = JSON.stringify({
+    endpoint,
+    params: requestConfig?.params ?? null,
+  });
+  const [state, setState] = useState<DataState<T>>({
+    data: [],
+    error: '',
+    resolvedKey: '',
+  });
 
-  useEffect(
-    () => {
-      const controller = new AbortController();
-      setIsLoading(true);
-      apiClient
-        .get<FetchResponse<T>>(endpoint, {
-          signal: controller.signal,
-          ...requestConfig,
-        })
-        .then((res) => {
-          setData(res.data.results);
-          setIsLoading(false);
-        })
-        .catch((error) => {
-          if (error instanceof CanceledError) return;
-          setError(error.message);
-          setIsLoading(false);
+  useEffect(() => {
+    const controller = new AbortController();
+    apiClient
+      .get<FetchResponse<T>>(endpoint, {
+        signal: controller.signal,
+        ...requestConfig,
+      })
+      .then((res) => {
+        setState({
+          data: res.data.results,
+          error: '',
+          resolvedKey: requestKey,
         });
+      })
+      .catch((error) => {
+        if (error instanceof CanceledError) return;
+        setState({
+          data: [],
+          error: error.message,
+          resolvedKey: requestKey,
+        });
+      });
 
-      return () => controller.abort();
-    },
-    deps ? [...deps] : []
-  );
+    return () => controller.abort();
+  }, [endpoint, requestConfig, requestKey]);
 
-  return { data, error, isLoading };
+  return {
+    data: state.resolvedKey === requestKey ? state.data : [],
+    error: state.resolvedKey === requestKey ? state.error : '',
+    isLoading: state.resolvedKey !== requestKey,
+  };
 };
 
 export default useData;

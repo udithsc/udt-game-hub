@@ -4,6 +4,7 @@ import {
   HStack,
   IconButton,
   Icon,
+  VStack,
   Show,
   useColorModeValue,
   useDisclosure,
@@ -23,21 +24,28 @@ import { Genre } from '../hooks/useGenres';
 import GenreList from './GenreList';
 
 interface Props {
+  searchText: string;
   onSearch: (searchText: string) => void;
   onSelectGenre: (genre: Genre) => void;
   selectedGenre: Genre | null;
 }
 
-const NavBar = ({ onSearch, onSelectGenre, selectedGenre }: Props) => {
+const NavBar = ({
+  searchText,
+  onSearch,
+  onSelectGenre,
+  selectedGenre,
+}: Props) => {
   const { isOpen, onOpen, onClose } = useDisclosure();
   const navBg = useColorModeValue(
-    'rgba(240, 242, 248, 0.75)',
-    'rgba(9, 12, 26, 0.65)'
+    'rgba(255, 255, 255, 0.68)',
+    'rgba(8, 17, 31, 0.62)'
   );
   const borderColor = useColorModeValue(
-    'rgba(0, 0, 0, 0.06)',
-    'rgba(255, 255, 255, 0.06)'
+    'rgba(20, 32, 51, 0.08)',
+    'rgba(255, 255, 255, 0.08)'
   );
+  const brandColor = useColorModeValue('gray.900', 'white');
 
   return (
     <>
@@ -48,81 +56,82 @@ const NavBar = ({ onSearch, onSelectGenre, selectedGenre }: Props) => {
         right={0}
         bg={navBg}
         backdropFilter="blur(20px) saturate(1.5)"
-        borderBottom="1px solid"
-        borderColor={borderColor}
         zIndex={100}
         transition="all 0.3s ease"
       >
         <Container maxW="container.xl" p={0}>
-          <HStack
-            spacing={4}
-            py={3}
-            px={{ base: 4, md: 6 }}
-            justify="space-between"
-            align="center"
-          >
-            <HStack spacing={3}>
+          <Box py={3} px={{ base: 4, md: 6 }}>
+            <HStack spacing={4} justify="space-between" align="center">
               <Show below="lg">
-                <IconButton
-                  icon={<HamburgerIcon />}
-                  aria-label="Open navigation"
-                  onClick={onOpen}
-                  variant="ghost"
-                  size="sm"
-                  borderRadius="lg"
-                />
+                <HStack spacing={3}>
+                  <IconButton
+                    icon={<HamburgerIcon />}
+                    aria-label="Open navigation"
+                    onClick={onOpen}
+                    variant="ghost"
+                    size="sm"
+                    borderRadius="lg"
+                  />
+                </HStack>
               </Show>
               <HStack spacing={2} align="center">
-                {/* Modern vector logo */}
                 <Box
-                  bgGradient="linear(to-br, brand.400, accent.500)"
-                  p={1.5}
-                  borderRadius="lg"
+                  bgGradient="linear(to-br, brand.500, accent.400)"
+                  p={2}
+                  borderRadius="2xl"
                   boxShadow="glow"
                 >
                   <Icon as={FaGamepad} boxSize="20px" color="white" />
                 </Box>
-                <HStack spacing={0.5}>
+                <VStack
+                  spacing={0}
+                  align="start"
+                  display={{ base: 'none', sm: 'flex' }}
+                >
                   <Text
-                    fontSize="xl"
+                    fontSize="lg"
                     fontWeight="800"
-                    letterSpacing="-0.02em"
-                    color={useColorModeValue('gray.700', 'white')}
-                    display={{ base: 'none', sm: 'block' }}
+                    color={brandColor}
+                    lineHeight="1"
                   >
-                    UDT
+                    UDT GameHub
                   </Text>
                   <Text
-                    fontSize="xl"
-                    fontWeight="800"
-                    letterSpacing="-0.02em"
-                    bgGradient="linear(to-r, brand.400, accent.400)"
-                    bgClip="text"
-                    display={{ base: 'none', sm: 'block' }}
+                    fontSize="10px"
+                    textTransform="uppercase"
+                    letterSpacing="0.16em"
+                    color="gray.500"
                   >
-                    GameHub
+                    Discover your next obsession
                   </Text>
-                </HStack>
+                </VStack>
+              </HStack>
+              <HStack spacing={3} flex={1} justify="flex-end">
+                <Show above="md">
+                  <Box flex={1} maxW="480px">
+                    <SearchInput value={searchText} onSearch={onSearch} />
+                  </Box>
+                </Show>
+                <ColorModeSwitch />
               </HStack>
             </HStack>
-            <HStack spacing={3} flex={1} justify="flex-end">
-              <Show above="md">
-                <Box flex={1} maxW="480px">
-                  <SearchInput onSearch={onSearch} />
-                </Box>
-              </Show>
-              <ColorModeSwitch />
-            </HStack>
-          </HStack>
+
+            <Show below="md">
+              <Box mt={3}>
+                <SearchInput value={searchText} onSearch={onSearch} />
+              </Box>
+            </Show>
+          </Box>
         </Container>
       </Box>
 
       <Drawer isOpen={isOpen} placement="left" onClose={onClose}>
         <DrawerOverlay bg="blackAlpha.700" backdropFilter="blur(8px)" />
         <DrawerContent
-          bg={useColorModeValue('#f0f2f8', '#0d1024')}
+          bg={useColorModeValue('rgba(245,247,251,0.96)', 'rgba(8,17,31,0.96)')}
           borderRightWidth="1px"
           borderRightColor={borderColor}
+          backdropFilter="blur(22px)"
         >
           <DrawerCloseButton />
           <DrawerHeader

@@ -1,12 +1,15 @@
 import {
   Button,
+  HStack,
   Menu,
   MenuButton,
   MenuItem,
   MenuList,
+  Text,
   useColorModeValue,
 } from '@chakra-ui/react';
 import { BsChevronDown } from 'react-icons/bs';
+import { FaLayerGroup } from 'react-icons/fa';
 import usePlatforms from '../hooks/usePlatforms';
 import { Platform } from '../hooks/usePlatforms';
 
@@ -17,8 +20,7 @@ interface Props {
 
 const PlatformSelector = ({ onSelectPlatform, selectedPlatform }: Props) => {
   const { data, error } = usePlatforms();
-  const btnBg = useColorModeValue('blackAlpha.50', 'whiteAlpha.50');
-  const btnHoverBg = useColorModeValue('blackAlpha.100', 'whiteAlpha.100');
+  const btnColor = useColorModeValue('gray.700', 'white');
 
   if (error) return null;
 
@@ -28,14 +30,18 @@ const PlatformSelector = ({ onSelectPlatform, selectedPlatform }: Props) => {
         as={Button}
         rightIcon={<BsChevronDown />}
         variant="ghost"
-        bg={btnBg}
-        _hover={{ bg: btnHoverBg }}
+        color={btnColor}
         borderRadius="full"
-        size="sm"
-        fontWeight="600"
-        px={4}
+        size="md"
+        fontWeight="700"
+        px={5}
+        h="52px"
+        minW={{ base: '100%', md: '220px' }}
       >
-        {selectedPlatform?.name || 'Platforms'}
+        <HStack spacing={3}>
+          <FaLayerGroup />
+          <Text>{selectedPlatform?.name || 'All platforms'}</Text>
+        </HStack>
       </MenuButton>
       <MenuList>
         {data.map((platform) => (

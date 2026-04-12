@@ -6,9 +6,9 @@ import {
   FaApple,
   FaLinux,
   FaAndroid,
+  FaGamepad,
 } from 'react-icons/fa';
 import { MdPhoneIphone } from 'react-icons/md';
-import { SiNintendo } from 'react-icons/si';
 import { BsGlobe } from 'react-icons/bs';
 import { IconType } from 'react-icons';
 import { Platform } from '../hooks/usePlatforms';
@@ -21,7 +21,7 @@ const iconMap: { [key: string]: { icon: IconType; label: string } } = {
   pc: { icon: FaWindows, label: 'PC' },
   playstation: { icon: FaPlaystation, label: 'PlayStation' },
   xbox: { icon: FaXbox, label: 'Xbox' },
-  nintendo: { icon: SiNintendo, label: 'Nintendo' },
+  nintendo: { icon: FaGamepad, label: 'Nintendo' },
   mac: { icon: FaApple, label: 'macOS' },
   linux: { icon: FaLinux, label: 'Linux' },
   android: { icon: FaAndroid, label: 'Android' },

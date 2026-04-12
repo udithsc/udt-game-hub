@@ -8,15 +8,18 @@ const config: ThemeConfig = {
 const theme = extendTheme({
   config,
   fonts: {
-    heading: `'Outfit', sans-serif`,
-    body: `'Outfit', sans-serif`,
+    heading: `'Space Grotesk', sans-serif`,
+    body: `'Manrope', sans-serif`,
   },
   styles: {
     global: (props: any) => ({
       'html, body': {
-        bg: props.colorMode === 'dark' ? '#090c1a' : '#f0f2f8',
-        color: props.colorMode === 'dark' ? '#e4e6f0' : '#1a1c2e',
+        bg: props.colorMode === 'dark' ? '#08111f' : '#f5f7fb',
+        color: props.colorMode === 'dark' ? '#ebf1ff' : '#142033',
         scrollBehavior: 'smooth',
+      },
+      body: {
+        letterSpacing: '-0.01em',
       },
       '*::-webkit-scrollbar': {
         width: '6px',
@@ -35,72 +38,82 @@ const theme = extendTheme({
   },
   colors: {
     gray: {
-      50: '#f0f2f8',
-      100: '#e1e4ef',
-      200: '#c8cde0',
-      300: '#a3aac5',
-      400: '#7a82a6',
-      500: '#5c6490',
-      600: '#454c73',
-      700: '#2d3258',
-      800: '#181c36',
-      900: '#090c1a',
+      50: '#f8fafe',
+      100: '#eef2f9',
+      200: '#dce4f0',
+      300: '#bfcbdd',
+      400: '#93a5be',
+      500: '#6b7d96',
+      600: '#51627a',
+      700: '#39485d',
+      800: '#1f2c3f',
+      900: '#08111f',
     },
     brand: {
-      50: '#f5f0ff',
-      100: '#e9deff',
-      200: '#d4bbff',
-      300: '#b68fff',
-      400: '#9c6aff',
-      500: '#8347ff',
-      600: '#6e2cf5',
-      700: '#5a1ed6',
-      800: '#4917a8',
-      900: '#37117d',
+      50: '#eef6ff',
+      100: '#d8e8ff',
+      200: '#b5d3ff',
+      300: '#86b5ff',
+      400: '#5793ff',
+      500: '#2f73f6',
+      600: '#1c58d0',
+      700: '#1745a3',
+      800: '#16377d',
+      900: '#152d63',
     },
     accent: {
-      50: '#fff0f7',
-      100: '#ffe0ef',
-      200: '#ffb8d9',
-      300: '#ff8cc0',
-      400: '#ff5eaa',
-      500: '#ff3695',
-      600: '#e6177e',
-      700: '#bf0064',
-      800: '#8a004a',
-      900: '#520030',
+      50: '#fff2ea',
+      100: '#ffe1cf',
+      200: '#ffc097',
+      300: '#ff9c62',
+      400: '#ff7c3f',
+      500: '#ff6230',
+      600: '#eb4817',
+      700: '#be3612',
+      800: '#972d16',
+      900: '#7a2918',
     },
   },
   shadows: {
-    glow: '0 0 20px rgba(131, 71, 255, 0.3)',
-    'glow-lg': '0 0 40px rgba(131, 71, 255, 0.25)',
+    glow: '0 18px 40px rgba(47, 115, 246, 0.22)',
+    'glow-lg': '0 28px 60px rgba(47, 115, 246, 0.18)',
     'card-hover':
-      '0 20px 40px rgba(0, 0, 0, 0.4), 0 0 30px rgba(131, 71, 255, 0.15)',
-    glass: '0 4px 30px rgba(0, 0, 0, 0.3)',
+      '0 26px 55px rgba(8, 17, 31, 0.2), 0 10px 24px rgba(47, 115, 246, 0.1)',
+    glass: '0 18px 60px rgba(8, 17, 31, 0.18)',
   },
   components: {
     Button: {
       baseStyle: {
-        fontWeight: '600',
+        fontWeight: '700',
         borderRadius: 'xl',
         transition: 'all 0.25s ease',
       },
       variants: {
         ghost: (props: any) => ({
+          bg:
+            props.colorMode === 'dark'
+              ? 'rgba(255,255,255,0.05)'
+              : 'rgba(255,255,255,0.58)',
+          border: '1px solid',
+          borderColor:
+            props.colorMode === 'dark'
+              ? 'rgba(255,255,255,0.08)'
+              : 'rgba(20,32,51,0.08)',
           _hover: {
             bg:
               props.colorMode === 'dark'
-                ? 'whiteAlpha.100'
-                : 'blackAlpha.50',
+                ? 'rgba(255,255,255,0.1)'
+                : 'rgba(255,255,255,0.88)',
+            transform: 'translateY(-1px)',
           },
         }),
         solid: {
-          bg: 'brand.500',
+          bg: 'linear-gradient(135deg, var(--chakra-colors-brand-500), var(--chakra-colors-accent-400))',
           color: 'white',
           _hover: {
-            bg: 'brand.600',
             transform: 'translateY(-1px)',
             shadow: 'glow',
+            opacity: 0.95,
           },
         },
       },
@@ -122,16 +135,19 @@ const theme = extendTheme({
     Menu: {
       baseStyle: (props: any) => ({
         list: {
-          bg: props.colorMode === 'dark' ? '#12152a' : 'white',
+          bg:
+            props.colorMode === 'dark'
+              ? 'rgba(11, 20, 36, 0.94)'
+              : 'rgba(255, 255, 255, 0.94)',
           border: '1px solid',
           borderColor:
             props.colorMode === 'dark'
-              ? 'whiteAlpha.100'
-              : 'blackAlpha.100',
-          borderRadius: 'xl',
+              ? 'rgba(255,255,255,0.08)'
+              : 'rgba(20,32,51,0.08)',
+          borderRadius: '2xl',
           boxShadow: 'glass',
           backdropFilter: 'blur(20px)',
-          py: 2,
+          py: 2.5,
         },
         item: {
           bg: 'transparent',
@@ -141,7 +157,7 @@ const theme = extendTheme({
                 ? 'whiteAlpha.100'
                 : 'blackAlpha.50',
           },
-          borderRadius: 'lg',
+          borderRadius: 'xl',
           mx: 2,
           px: 3,
           transition: 'all 0.15s ease',
@@ -151,14 +167,18 @@ const theme = extendTheme({
     Modal: {
       baseStyle: (props: any) => ({
         dialog: {
-          bg: props.colorMode === 'dark' ? '#12152a' : 'white',
+          bg:
+            props.colorMode === 'dark'
+              ? 'rgba(11, 20, 36, 0.96)'
+              : 'rgba(255, 255, 255, 0.96)',
           border: '1px solid',
           borderColor:
             props.colorMode === 'dark'
-              ? 'whiteAlpha.100'
-              : 'blackAlpha.100',
-          borderRadius: '2xl',
+              ? 'rgba(255,255,255,0.08)'
+              : 'rgba(20,32,51,0.08)',
+          borderRadius: '28px',
           boxShadow: 'glow-lg',
+          backdropFilter: 'blur(24px)',
         },
         overlay: {
           bg: 'blackAlpha.700',
@@ -172,25 +192,28 @@ const theme = extendTheme({
           field: {
             bg:
               props.colorMode === 'dark'
-                ? 'whiteAlpha.50'
-                : 'blackAlpha.50',
+                ? 'rgba(255,255,255,0.05)'
+                : 'rgba(255,255,255,0.72)',
             _hover: {
               bg:
                 props.colorMode === 'dark'
-                  ? 'whiteAlpha.100'
-                  : 'blackAlpha.100',
+                  ? 'rgba(255,255,255,0.09)'
+                  : 'rgba(255,255,255,0.9)',
             },
             _focus: {
               bg:
                 props.colorMode === 'dark'
-                  ? 'whiteAlpha.100'
-                  : 'white',
+                  ? 'rgba(255,255,255,0.09)'
+                  : 'rgba(255,255,255,0.96)',
               borderColor: 'brand.400',
               boxShadow: '0 0 0 1px var(--chakra-colors-brand-400)',
             },
             borderRadius: 'full',
             border: '1px solid',
-            borderColor: 'transparent',
+            borderColor:
+              props.colorMode === 'dark'
+                ? 'rgba(255,255,255,0.08)'
+                : 'rgba(20,32,51,0.08)',
           },
         }),
       },

@@ -1,12 +1,15 @@
 import {
   Button,
+  HStack,
   Menu,
   MenuButton,
   MenuItem,
   MenuList,
+  Text,
   useColorModeValue,
 } from '@chakra-ui/react';
 import { BsChevronDown } from 'react-icons/bs';
+import { FaSlidersH } from 'react-icons/fa';
 
 interface Props {
   onSelectSortOrder: (sortOrder: string) => void;
@@ -27,8 +30,7 @@ const SortSelector = ({ onSelectSortOrder, sortOrder }: Props) => {
     (order) => order.value === sortOrder
   );
 
-  const btnBg = useColorModeValue('blackAlpha.50', 'whiteAlpha.50');
-  const btnHoverBg = useColorModeValue('blackAlpha.100', 'whiteAlpha.100');
+  const btnColor = useColorModeValue('gray.700', 'white');
 
   return (
     <Menu>
@@ -36,14 +38,18 @@ const SortSelector = ({ onSelectSortOrder, sortOrder }: Props) => {
         as={Button}
         rightIcon={<BsChevronDown />}
         variant="ghost"
-        bg={btnBg}
-        _hover={{ bg: btnHoverBg }}
+        color={btnColor}
         borderRadius="full"
-        size="sm"
-        fontWeight="600"
-        px={4}
+        size="md"
+        fontWeight="700"
+        px={5}
+        h="52px"
+        minW={{ base: '100%', md: '200px' }}
       >
-        {currentSortOrder?.label || 'Relevance'}
+        <HStack spacing={3}>
+          <FaSlidersH />
+          <Text>{currentSortOrder?.label || 'Relevance'}</Text>
+        </HStack>
       </MenuButton>
       <MenuList>
         {sortOrders.map((order) => (
