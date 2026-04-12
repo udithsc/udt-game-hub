@@ -38,10 +38,6 @@ const GenreList = ({ onSelectGenre, selectedGenre }: Props) => {
     'rgba(255,255,255,0.2)',
     'rgba(255,255,255,0.03)'
   );
-  const pillBg = useColorModeValue(
-    'rgba(255,255,255,0.24)',
-    'rgba(255,255,255,0.05)'
-  );
   const railLine = useColorModeValue(
     'rgba(20,32,51,0.08)',
     'rgba(255,255,255,0.08)'
@@ -185,8 +181,8 @@ const GenreList = ({ onSelectGenre, selectedGenre }: Props) => {
                     pointerEvents="none"
                   />
                 )}
-                <HStack spacing={3} w="100%" justify="space-between">
-                  <HStack spacing={3}>
+                <HStack spacing={3} w="100%">
+                  <HStack spacing={3} flex={1} minW={0}>
                     <Box
                       w={isSelected ? '6px' : '0px'}
                       h="40px"
@@ -231,25 +227,6 @@ const GenreList = ({ onSelectGenre, selectedGenre }: Props) => {
                       </Text>
                     </VStack>
                   </HStack>
-                  <Box
-                    px={3}
-                    py={1.5}
-                    borderRadius="full"
-                    bg={
-                      isSelected
-                        ? 'rgba(255,255,255,0.14)'
-                        : pillBg
-                    }
-                  >
-                    <Text
-                      fontSize="10px"
-                      fontWeight="800"
-                      letterSpacing="0.12em"
-                      textTransform="uppercase"
-                    >
-                      View
-                    </Text>
-                  </Box>
                 </HStack>
               </Button>
             </ListItem>
